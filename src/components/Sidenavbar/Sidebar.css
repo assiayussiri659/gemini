@@ -1,66 +1,104 @@
-.sidebar{
+.sidebar {
     min-height: 100vh;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: #f0f4f9;
-    padding: 25px 15px;
+    padding: 20px;
+    width: 250px; /* Sidebar width when extended */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
 
-.sidebar img{
+.sidebar.collapsed {
+    width: 60px; /* Sidebar width when collapsed */
+    padding: 20px 10px; /* Adjust padding */
+}
+
+.sidebar img {
     width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
 
-.sidebar .menu{
+.sidebar .menu {
     display: block;
     margin-left: 10px;
     cursor: pointer;
+    width: 24px;
+    height: 24px;
 }
 
-.sidebar .newchat{
-    margin-top: 10px;
-    display: inline-flex;
+.sidebar .newchat {
+    margin-top: 15px;
+    display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 15px;
+    padding: 12px 15px;
     background-color: #e6eaf1;
     border-radius: 50px;
     font-size: 14px;
     color: gray;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.sidebar .recent{
+.sidebar.collapsed .newchat p {
+    display: none; /* Hide text when collapsed */
+}
+
+.sidebar .recent {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
+    gap: 15px;
 }
 
-.sidebar .recent-tittle{
-    margin-top: 30px;
-    margin-bottom: 20px;
+.sidebar.collapsed .recent-title,
+.sidebar.collapsed .recent-entry p {
+    display: none; /* Hide recent titles and entries text */
 }
 
-.sidebar .recent-entery{
+.sidebar .recent-entry {
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 10px;
-    padding: 10px;
-    padding-right: 40px;
+    padding: 10px 15px;
     border-radius: 50px;
     color: #282828;
+    background-color: #f9fafb;
     cursor: pointer;
-
-}
-.sidebar .recent-entery:hover{
-    background-color: #e6eaf1;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-.sidebar .button{
+.sidebar .button {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+    margin-top: auto;
 }
 
-.sidebar .button-item{
-    padding-right: 10px;
+.sidebar.collapsed .button-item p {
+    display: none; /* Hide button labels when collapsed */
+}
+
+.sidebar .button-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 50px;
+    color: #555;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+
+
+@media (max-width:600px) {
+    .sidebar{
+        display: none;
+    }
 }
