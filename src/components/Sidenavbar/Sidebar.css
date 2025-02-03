@@ -12,7 +12,7 @@
 
 .sidebar.collapsed {
     width: 60px; /* Sidebar width when collapsed */
-    padding: 20px 10px; /* Adjust padding */
+    padding: 20px 10px;
 }
 
 .sidebar img {
@@ -44,7 +44,7 @@
 }
 
 .sidebar.collapsed .newchat p {
-    display: none; /* Hide text when collapsed */
+    display: none;
 }
 
 .sidebar .recent {
@@ -56,7 +56,7 @@
 
 .sidebar.collapsed .recent-title,
 .sidebar.collapsed .recent-entry p {
-    display: none; /* Hide recent titles and entries text */
+    display: none;
 }
 
 .sidebar .recent-entry {
@@ -80,7 +80,7 @@
 }
 
 .sidebar.collapsed .button-item p {
-    display: none; /* Hide button labels when collapsed */
+    display: none;
 }
 
 .sidebar .button-item {
@@ -95,10 +95,46 @@
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 40px;
+    height: 40px;
+    background: #e6eaf1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1001;
+}
 
+.mobile-menu-btn img {
+    width: 24px;
+    height: 24px;
+}
 
-@media (max-width:600px) {
-    .sidebar{
-        display: none;
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        width: 250px;
+        height: 100vh;
+        background: #f0f4f9;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .sidebar.mobile-open {
+        left: 0;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
     }
 }

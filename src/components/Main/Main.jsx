@@ -1,88 +1,160 @@
-import React, { useContext } from 'react'
-import './Main.css'
-import { assets } from '../../assets/assets'
-import { Context } from '../../context/Context'
-
-
-const ResultComponent = ({ resultData }) => {
-    return <div dangerouslySetInnerHTML={{ __html: resultData }}></div>;
-};
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import './Main.css';
+import { assets } from '../../assets/assets';
+import { Context } from '../../context/Context';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage } from '../../redux/chatSlice';
 
 const Main = () => {
+    const { onSent, showResult, loading, resultData, setInput, input } = useContext(Context);
+    const dispatch = useDispatch();
+    const messages = useSelector((state) => state.chat.messages);
+    const chatContainerRef = useRef(null);
+    const [displayedText, setDisplayedText] = useState('');
+    const [hasAddedResult, setHasAddedResult] = useState(false);
+    const typingInterval = useRef(null);
 
-    const { onSent, recentPrompt, showResult, loading, resultData, setInput, input } = useContext(Context);
-    console.log("resultData:::: ", resultData)
+    // Scroll to the latest message
+   // Typing Effect for Bot Response (updated)
+useEffect(() => {
+    if (showResult && resultData && !hasAddedResult) {
+        // Clear any existing interval immediately
+        if (typingInterval.current) {
+            clearInterval(typingInterval.current);
+            typingInterval.current = null;
+        }
+
+        setDisplayedText('');
+        let index = 0;
+        
+        typingInterval.current = setInterval(() => {
+            if (index < resultData.length) {
+                setDisplayedText(prev => prev + resultData[index]);
+                index++;
+            } else {
+                // Clean up before finalizing
+                clearInterval(typingInterval.current);
+                typingInterval.current = null;
+                setHasAddedResult(true);
+                
+                // Ensure we're adding the exact resultData
+                dispatch(addMessage({ 
+                    role: 'assistant', 
+                    content: resultData 
+                }));
+            }
+        }, 30);
+
+        // Cleanup on unmount or dependency change
+        return () => {
+            if (typingInterval.current) {
+                clearInterval(typingInterval.current);
+                typingInterval.current = null;
+            }
+        };
+    }
+}, [showResult, resultData, hasAddedResult, dispatch]);
+
+// Add this cleanup when new responses start
+const handleSend = () => {
+    if (input.trim() && !loading) { // Add loading check
+        console.log("User sent message:", input);
+        // Clear previous typing state
+        setDisplayedText('');
+        setHasAddedResult(false);
+        if (typingInterval.current) clearInterval(typingInterval.current);
+        
+        // Remove the dispatch for user message here
+        // Let onSent handle adding messages through the Context
+        onSent(); // This should trigger message handling
+        setInput(''); // Clear input after sending
+    }
+};
+
     return (
         <div className='main'>
-            <div className="nav">
-                <p>Gemini</p>
-                <img src={assets.user_icon} alt="" />
+            <div className='nav'>
+                <p className='nav-title'>Setting up your account</p>
+                <img src={assets.gemini_icon} alt='Gemini Icon' />
             </div>
-            <div className="main-container">
-
-
-                {!showResult
-                    ? <>
-                        <div className='greet'>
-                            <p><span>Hello, There</span></p>
-                            <p>How can I help you today?</p>
+            <div className='main-container'>
+                <div className='header-text'>
+                    <h1>Get to know you</h1>
+                </div>
+                <div className='chat-container' ref={chatContainerRef}>
+                    {messages.map((message, index) => (
+                        <div
+                            key={index}
+                            className={`message ${
+                                message.role === 'user' ? 'user-message' : 'bot-message'
+                            }`}
+                        >
+                            {message.role === 'assistant' && (
+                                <img
+                                    src={assets.gemini_icon}
+                                    alt='Bot Avatar'
+                                    className='avatar'
+                                />
+                            )}
+                            <div className='message-content'>
+                                <ReactMarkdown className='message-text'>
+                                    {message.content}
+                                </ReactMarkdown>
+                            </div>
+                            {message.role === 'user' && (
+                                <img
+                                    src={assets.user_icon}
+                                    alt='User Avatar'
+                                    className='avatar'
+                                />
+                            )}
                         </div>
+                    ))}
 
-                        <div className="cards">
-                            <div className="card">
-                                <p>Suggest beautiful places to see on an upcoming road trip</p>
-                                <img src={assets.compass_icon} alt="" />
-                            </div>
-                            <div className="card">
-                                <p>Briefly summarize this concept: urban planning</p>
-                                <img src={assets.bulb_icon} alt="" />
-                            </div>
-                            <div className="card">
-                                <p>Brainstorm team bonding activities for our work retreat</p>
-                                <img src={assets.message_icon} alt="" />
-                            </div>
-                            <div className="card">
-                                <p>Improve the readaboility of the following code</p>
-                                <img src={assets.code_icon} alt="" />
+                    {/* Typing Effect Display */}
+                    {showResult && !hasAddedResult && (
+                        <div className='message bot-message'>
+                            <img src={assets.gemini_icon} alt='Bot Avatar' className='avatar' />
+                            <div className='message-content'>
+                                <p className='message-text'>{displayedText}</p>
                             </div>
                         </div>
-                    </>
-                    : <div className='result'>
-                        <div className='result-title'>
-                            <img src={assets.user_icon} alt="" />
-                            <p>{recentPrompt}</p>
+                    )}
+                </div>
+
+                <div className='main-bottom'>
+                    <div className='input-area'>
+                        <div className='input-buttons'>
+                            <button className='input-button'>YES</button>
+                            <button className='input-button'>NOT YET</button>
                         </div>
-                        <div className="result-data">
-                            <img src={assets.gemini_icon} alt="" />
-                            {loading
-                                ? <div className='loader'>
-                                    <hr />
-                                    <hr />
-                                    <hr />
-                                </div>
-                                :<p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-                            }
+                        <div className='search-box'>
+                            <input
+                                type='text'
+                                placeholder='Press here to talk to FITSY'
+                                value={input || ""}
+                                onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                            />
+                            <img
+                                src={assets.send_icon}
+                                alt='Send Icon'
+                                onClick={handleSend}
+                            />
                         </div>
                     </div>
-                }
-
-
-                <div className="main-bottom">
-                    <div className="search-box">
-                        <input onChange={(e) => setInput(e.target.value)} value={input} type="text" placeholder='Enter a prompt here' />
-                        <div>
-                            <img src={assets.gallery_icon} alt="" />
-                            <img src={assets.mic_icon} alt="" />
-                            <img onClick={() => onSent()} src={assets.send_icon} alt="" />
-                        </div>
+                    <div className='bottom-icons'>
+                        <img src={assets.setting_icon} alt='Setting Icon' />
+                        <img src={assets.gallery_icon2} alt='Gallery Icon' />
+                        <img src={assets.plus_icon} alt='Plus Icon' />
+                        <img src={assets.youtube_icon} alt='Youtube Icon' />
+                        <img src={assets.history_icon} alt='History Icon' />
                     </div>
-                    <p className="bottom-info">
-                        Gemini may display inaccurate info, including about people, so double-check its responses. Your privacy and Gemini Apps
-                    </p>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Main
+export default Main;

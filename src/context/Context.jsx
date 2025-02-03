@@ -1,21 +1,24 @@
-import { createContext, useState } from "react";
-import run from "../config/gemini";
+import { createContext, useState, useContext } from 'react';
+import run from '../config/gemini';
+import { useDispatch, useSelector } from 'react-redux';
+import { addMessage } from '../redux/chatSlice';
 
 export const Context = createContext();
 
-const ContextProvider = (props) => {
-    const [input, setInput] = useState("");
-    const [recentPrompt, setRecentPrompt] = useState("");
+const ContextProvider = ({ children }) => {
+    const [input, setInput] = useState('');
+    const [recentPrompt, setRecentPrompt] = useState('');
     const [prevPrompts, setPrevPrompts] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [resultData, setResultData] = useState("");
+    const [resultData, setResultData] = useState('');
+    const dispatch = useDispatch();
+    const messages = useSelector((state) => state.chat.messages);
 
     const delayPara = (index, nextWord) => {
         setTimeout(() => {
-            console.log("Updating with:", nextWord);
             setResultData((prev) => prev + nextWord);
-        }, 5 * index);
+        }, 70 * index);
     };
 
     const newchat = () => {
@@ -24,10 +27,13 @@ const ContextProvider = (props) => {
     };
 
     const onSent = async (prompt) => {
-        setResultData("");
+        setResultData('');
         setLoading(true);
         setShowResult(true);
         let response;
+        let userMessage = prompt ? prompt : input;
+        dispatch(addMessage({ role: 'user', content: userMessage }));
+
         if (prompt !== undefined) {
             response = await run(prompt);
             setRecentPrompt(prompt);
@@ -37,25 +43,27 @@ const ContextProvider = (props) => {
             response = await run(input);
         }
 
-        let responseArray = response.split("**");
-        let newResponse = "";
+        dispatch(addMessage({ role: 'assistant', content: response }));
+
+        let responseArray = response.split('**');
+        let newResponse = '';
 
         for (let i = 0; i < responseArray.length; i++) {
             if (i === 0 || i % 2 !== 1) {
                 newResponse += responseArray[i];
             } else {
-                newResponse += "<b>" + responseArray[i] + "</b>";
+                newResponse += '<b>' + responseArray[i] + '</b>';
             }
         }
 
-        let newResponse2 = newResponse.split("*").join("<br>");
-        let newResponseArray = newResponse2.split("");
+        let newResponse2 = newResponse.split('*').join('<br>');
+        let newResponseArray = newResponse2.split('');
         for (let i = 0; i < newResponseArray.length; i++) {
             const nextWord = newResponseArray[i];
-            delayPara(i, nextWord + "");
+            delayPara(i, nextWord + '');
         }
         setLoading(false);
-        setInput("");
+        setInput('');
     };
 
     const contextValue = {
@@ -70,9 +78,11 @@ const ContextProvider = (props) => {
         input,
         setInput,
         newchat,
+        messages,
     };
 
-    return <Context.Provider value={contextValue}>{props.children}</Context.Provider>;
+    
+    return <Context.Provider value={contextValue}>{children}</Context.Provider>;
 };
 
 export default ContextProvider;
