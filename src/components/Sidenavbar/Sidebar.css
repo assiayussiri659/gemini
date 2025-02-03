@@ -1,140 +1,140 @@
-.sidebar {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #f0f4f9;
-    padding: 20px;
-    width: 250px; /* Sidebar width when extended */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
-
-.sidebar.collapsed {
-    width: 60px; /* Sidebar width when collapsed */
-    padding: 20px 10px;
-}
-
-.sidebar img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-}
-
-.sidebar .menu {
-    display: block;
-    margin-left: 10px;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-}
-
-.sidebar .newchat {
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 15px;
-    background-color: #e6eaf1;
-    border-radius: 50px;
-    font-size: 14px;
-    color: gray;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.sidebar.collapsed .newchat p {
-    display: none;
-}
-
-.sidebar .recent {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    gap: 15px;
-}
-
-.sidebar.collapsed .recent-title,
-.sidebar.collapsed .recent-entry p {
-    display: none;
-}
-
-.sidebar .recent-entry {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 15px;
-    border-radius: 50px;
-    color: #282828;
-    background-color: #f9fafb;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-}
-
-.sidebar .button {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: auto;
-}
-
-.sidebar.collapsed .button-item p {
-    display: none;
-}
-
-.sidebar .button-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 15px;
-    border-radius: 50px;
-    color: #555;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-}
-
-/* Mobile Menu Button */
-.mobile-menu-btn {
-    display: none;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    width: 40px;
-    height: 40px;
-    background: #e6eaf1;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.mobile-menu-btn img {
-    width: 24px;
-    height: 24px;
-}
-
-/* Responsive Styles */
-@media (max-width: 600px) {
     .sidebar {
-        position: fixed;
-        left: -100%;
-        width: 250px;
-        height: 100vh;
-        background: #f0f4f9;
-        transition: left 0.3s ease-in-out;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-    }
-
-    .sidebar.mobile-open {
-        left: 0;
-    }
-
-    .mobile-menu-btn {
+        min-height: 100vh;
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #f0f4f9;
+        padding: 20px;
+        width: 250px; /* Sidebar width when extended */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
     }
-}
+
+    .sidebar.collapsed {
+        width: 60px; /* Sidebar width when collapsed */
+        padding: 20px 10px;
+    }
+
+    .sidebar img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+    .sidebar .menu {
+        display: block;
+        margin-left: 10px;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+    }
+
+    .sidebar .newchat {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        background-color: #e6eaf1;
+        border-radius: 50px;
+        font-size: 14px;
+        color: gray;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .sidebar.collapsed .newchat p {
+        display: none;
+    }
+
+    .sidebar .recent {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        gap: 15px;
+    }
+
+    .sidebar.collapsed .recent-title,
+    .sidebar.collapsed .recent-entry p {
+        display: none;
+    }
+
+    .sidebar .recent-entry {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 50px;
+        color: #282828;
+        background-color: #f9fafb;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .sidebar .button {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: auto;
+    }
+
+    .sidebar.collapsed .button-item p {
+        display: none;
+    }
+
+    .sidebar .button-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 50px;
+        color: #555;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        display: none;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        width: 40px;
+        height: 40px;
+        background: #e6eaf1;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .mobile-menu-btn img {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 600px) {
+        .sidebar {
+            position: fixed;
+            left: -100%;
+            width: 250px;
+            height: 100vh;
+            background: #f0f4f9;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .sidebar.mobile-open {
+            left: 0;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+        }
+    }
