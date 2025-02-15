@@ -4,7 +4,6 @@ import './Main.css';
 import { assets } from '../../assets/assets';
 import { Context } from '../../context/Context';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMessage } from '../../redux/chatSlice';
 
 const Main = () => {
     const { onSent, showResult, loading, resultData, setInput, input } = useContext(Context);
@@ -74,13 +73,13 @@ const handleSend = () => {
 
     return (
         <div className='main'>
-            <div className='nav'>
+            {/* <div className='nav'>
                 <p className='nav-title'>Setting up your account</p>
                 <img src={assets.gemini_icon} alt='Gemini Icon' />
-            </div>
+            </div> */}
             <div className='main-container'>
                 <div className='header-text'>
-                    <h1>Get to know you</h1>
+                    <h1>Solar energy assistant agent</h1>
                 </div>
                 <div className='chat-container' ref={chatContainerRef}>
                     {messages.map((message, index) => (
@@ -125,14 +124,14 @@ const handleSend = () => {
 
                 <div className='main-bottom'>
                     <div className='input-area'>
-                        <div className='input-buttons'>
+                        {/* <div className='input-buttons'>
                             <button className='input-button'>YES</button>
                             <button className='input-button'>NOT YET</button>
-                        </div>
+                        </div> */}
                         <div className='search-box'>
                             <input
                                 type='text'
-                                placeholder='Press here to talk to FITSY'
+                                placeholder='Ask about solar energy'
                                 value={input || ""}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}

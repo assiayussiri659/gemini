@@ -3,10 +3,12 @@ import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import { useDispatch, useSelector } from "react-redux";
+import { clearChat } from "../../redux/chatSlice";
 
 function Sidebar() {
     const [extended, setExtended] = useState(true);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const dispatch = useDispatch()
     const { onSent, prevPrompts, setRecentPrompt, newchat } = useContext(Context);
     const messages = useSelector((state) => state.chat.messages);
     const uniquePrompts = Array.from(new Set(prevPrompts));
@@ -19,6 +21,7 @@ function Sidebar() {
     };
 
     const handleNewChat = () => {
+        dispatch(clearChat());
         newchat();  // Clears chat or resets chat state
         setRecentPrompt("");  // Clear the recent prompt if needed
         // Any additional actions for the new chat can be added here, like resetting other states
@@ -57,7 +60,7 @@ function Sidebar() {
                         </div>
                     )}
                 </div>
-                {extended && (
+                {/* {extended && (
                     <div className="button">
                         <div className="button-item">
                             <img src={assets.question_icon} alt="Question Icon" />
@@ -72,7 +75,7 @@ function Sidebar() {
                             <p>Settings</p>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </>
     );
