@@ -22,7 +22,7 @@ function Sidebar() {
         newchat();  // Clears chat or resets chat state
         setRecentPrompt("");  // Clear the recent prompt if needed
         // Any additional actions for the new chat can be added here, like resetting other states
-        if (window.innerWidth <= 600) setIsMobileOpen(false);
+        // if (window.innerWidth <= 600) setIsMobileOpen(false);
     };
 
     return (

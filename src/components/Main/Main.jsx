@@ -113,14 +113,14 @@ const handleSend = () => {
                     ))}
 
                     {/* Typing Effect Display */}
-                    {showResult && !hasAddedResult && (
+                    {/* {showResult && !hasAddedResult && (
                         <div className='message bot-message'>
                             <img src={assets.gemini_icon} alt='Bot Avatar' className='avatar' />
                             <div className='message-content'>
                                 <p className='message-text'>{displayedText}</p>
                             </div>
                         </div>
-                    )}
+                    )} */}
                 </div>
 
                 <div className='main-bottom'>
