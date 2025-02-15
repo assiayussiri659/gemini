@@ -39,10 +39,10 @@ useEffect(() => {
                 setHasAddedResult(true);
                 
                 // Ensure we're adding the exact resultData
-                dispatch(addMessage({ 
-                    role: 'assistant', 
-                    content: resultData 
-                }));
+                // dispatch(addMessage({ 
+                //     role: 'assistant', 
+                //     content: resultData 
+                // }));
             }
         }, 30);
 

@@ -2,18 +2,20 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
+import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar() {
     const [extended, setExtended] = useState(true);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const { onSent, prevPrompts, setRecentPrompt, newchat } = useContext(Context);
-
+    const messages = useSelector((state) => state.chat.messages);
     const uniquePrompts = Array.from(new Set(prevPrompts));
 
     const loadPrompt = async (prompt) => {
-        setRecentPrompt(prompt);
-        await onSent(prompt);
-        if (window.innerWidth <= 600) setIsMobileOpen(false);
+        console.log(messages)
+        // setRecentPrompt(prompt);
+        // // await onSent(prompt);
+        // if (window.innerWidth <= 600) setIsMobileOpen(false);
     };
 
     const handleNewChat = () => {
